@@ -1,7 +1,7 @@
 # A New Assignment
 
 ## Repository
-<Link to your project's public GitHub respository>
+<https://github.com/CCD230003/Final-Project.git>
 
 ## Description
 My project will pose as inspiration for others in the same field I am in that wish to create and share a story through code. I would also like for it to be an inspiration; 
