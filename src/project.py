@@ -59,8 +59,8 @@ class VisualNovel():
                 new_height = 500
                 new_width = int(new_height / aspect)
                 self.sprites[key] = pygame.transform.scale(sprite, (new_width, new_height))
-                self.background = pygame.image.load("bg_image/college_hall.png").convert()
-                self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            self.background = pygame.image.load("bg_image/college_hall.png").convert()
+            self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
         except (pygame.error, FileNotFoundError):
             print("Image not found, sorry! Try a different name.")
 
@@ -98,6 +98,7 @@ class VisualNovel():
 
     def start_typing(self):
         line = self.script[self.current_line]
+        self.ending = line.get("ending", False)
         if "sprite" in line:
             self.update_sprite(line["sprite"])
         self.display_text = ""
@@ -188,14 +189,7 @@ class VisualNovel():
             words = self.display_text.split(' ')
             lines = []
             current_line = ""
-            for word in words:
-                test_line = current_line + word + " "
-                if font_text.size(test_line)[0] < dialogue_box_rect.width - 20:
-                    current_line = test_line
-                words = self.display_text.split(' ')
-            lines = []
-            current_line = ""
-
+            words = self.display_text.split(' ')
             for word in words:
                 test_line = current_line + word + " "
 
@@ -211,14 +205,22 @@ class VisualNovel():
 
             for line_text in lines:
                 text_surface = font_text.render(line_text, True, WHITE)
-                screen.blit(text_surface,(dialogue_box_rect.x + dialogue_padding,
-                dialogue_box_rect.y + dialogue_padding + y_offset))
-                y_offset += 30
 
-            for line_text in lines:
-                text_surface = font_text.render(line_text, True, WHITE)
-                screen.blit(text_surface, (dialogue_box_rect.x + dialogue_padding, dialogue_box_rect.y + dialogue_padding + y_offset))
-                y_offset += 30
+                screen.blit(text_surface, (dialogue_box_rect.x + dialogue_padding,
+                dialogue_box_rect.y + dialogue_padding + y_offset))
+
+            y_offset += 30
+
+        for line_text in lines:
+            text_surface = font_text.render(line_text, True, WHITE)
+            screen.blit(text_surface,(dialogue_box_rect.x + dialogue_padding,
+            dialogue_box_rect.y + dialogue_padding + y_offset))
+            y_offset += 30
+
+        for line_text in lines:
+            text_surface = font_text.render(line_text, True, WHITE)
+            screen.blit(text_surface, (dialogue_box_rect.x + dialogue_padding, dialogue_box_rect.y + dialogue_padding + y_offset))
+            y_offset += 30
         if self.showing_choices:
             for rect, choice_text, _ in self.choices_rects:
                 pygame.draw.rect(screen, (80, 80, 100), rect)
@@ -247,7 +249,10 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if vn.showing_choices:
+                if vn.ending:
+                    vn = VisualNovel()
+                    vn.start_typing()
+                elif vn.showing_choices:
                     vn.handle_choice_click(event.pos)
                 else:
                     vn.advance()
