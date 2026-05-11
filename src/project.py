@@ -28,12 +28,16 @@ class VisualNovel():
     def __init__(self):
         self.script = [{"char": "Finn", "text": "He's so cool...", "sprite": "finn"},
                        {"char": "Finn", "text": "I should talk to him. Like, now. Like, right now.", "sprite": "finn"},
-                       {"char": "Tito", "text": "Can I help you?", "sprite": "tito"},
-                       {"char": "Finn", "text": "Huh?", "choices": [("Wuh?", 4), ("Me?", 5)], "sprite": "finn"},
-                       {"char": "Tito", "text": "The hell is your problem? Do you think I'm stupid??", "sprite": "tito"},
-                       {"char": "Finn", "text": "What?! No--I was just--", "sprite": "finn"},
-                       {"char": "Tito", "text": "Wasting my time is what you're doing. Quit staring at me.", "sprite": "tito", "ending": True}
+                       {"char": "Tito", "text": "Can I help you?", "sprite": "titoyes"},
+                       {"char": "Finn", "text": "Huh?", "choices": [("Wuh?", 4), ("Me?", 5)], "sprite": "finnwhat"},
+                       {"char": "Tito", "text": "The hell is your problem? Do you think I'm stupid??", "sprite": "titowhat"},
+                       {"char": "Finn", "text": "What?! No--I was just--", "sprite": "finnwhat"},
+                       {"char": "Tito", "text": "Wasting my time is what you're doing. Quit staring at me.", "sprite": "tito"},
+                       {"char": "Finn", "text": "I didn't mean to stare, I swear I'm not that kind of guy! I just thought--", "sprite": "finnno"},
+                       {"char": "Tito", "text": "Thought I'd want to talk to you? Don't flatter yourself.", "sprite": "titowhat"},
+                       {"ending": True}
                        ]
+                       
         self.sprites = {}
         self.current_sprite = None
         self.background = None
@@ -53,6 +57,10 @@ class VisualNovel():
         try:
             self.sprites["finn"] = pygame.image.load("sprites/Finn_Static.png").convert_alpha()
             self.sprites["tito"] = pygame.image.load("sprites/Tito_No.png").convert_alpha()
+            self.sprites["finnwhat"] = pygame.image.load("sprites/Finn_What.png").convert_alpha()
+            self.sprites["finnno"] = pygame.image.load("sprites/Finn_No.png").convert_alpha()
+            self.sprites["titoyes"] = pygame.image.load("sprites/Tito_Yes.png").convert_alpha()
+            self.sprites["titowhat"] = pygame.image.load("sprites/Tito_What.png").convert_alpha()
             for key in self.sprites:
                 sprite = self.sprites[key]
                 aspect = sprite.get_height() / sprite.get_width()
@@ -112,8 +120,8 @@ class VisualNovel():
             current_time = pygame.time.get_ticks()
             if current_time - self.last_update >= self.text_speed:
                 line = self.script[self.current_line]
-                if self.text_idx < len(line["text"]):
-                    self.display_text += line["text"][self.text_idx]
+                if self.text_idx < len(line['text']):
+                    self.display_text += line['text'][self.text_idx]
                     self.text_idx += 1
                     self.last_update = current_time
                 else:
@@ -209,7 +217,7 @@ class VisualNovel():
                 screen.blit(text_surface, (dialogue_box_rect.x + dialogue_padding,
                 dialogue_box_rect.y + dialogue_padding + y_offset))
 
-            y_offset += 30
+                y_offset += 30
 
         if self.showing_choices:
             for rect, choice_text, _ in self.choices_rects:
