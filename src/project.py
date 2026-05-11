@@ -52,7 +52,7 @@ class VisualNovel():
     def load_sprites(self):
         try:
             self.sprites["finn"] = pygame.image.load("sprites/Finn_Static.png").convert_alpha()
-            self.sprites["tito"] = pygame.image.load("sprites/Tito_No.png").convert()
+            self.sprites["tito"] = pygame.image.load("sprites/Tito_No.png").convert_alpha()
             for key in self.sprites:
                 sprite = self.sprites[key]
                 aspect = sprite.get_height() / sprite.get_width()
@@ -82,7 +82,7 @@ class VisualNovel():
 
     def change_background(self, bg_name):
         try:
-            new_bg = pygame.image.load("bg_image/{college_hall}.png").convert()
+            new_bg = pygame.image.load(f"bg_image/{bg_name}.png").convert()
             self.background = pygame.transform.scale(new_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
         except:
             pass
@@ -156,7 +156,8 @@ class VisualNovel():
             self.current_line += 1
             if self.current_line >= len(self.script):
                 self.ending = True
-            self.start_typing()
+            else:
+                self.start_typing()
     
     def draw(self, screen):
         if self.background:
@@ -191,11 +192,29 @@ class VisualNovel():
                 test_line = current_line + word + " "
                 if font_text.size(test_line)[0] < dialogue_box_rect.width - 20:
                     current_line = test_line
+                words = self.display_text.split(' ')
+            lines = []
+            current_line = ""
+
+            for word in words:
+                test_line = current_line + word + " "
+
+                if font_text.size(test_line)[0] < dialogue_box_rect.width - 20:
+                    current_line = test_line
                 else:
                     lines.append(current_line)
                     current_line = word + " "
-                    lines.append(current_line)
-                    y_offset = 0
+
+            lines.append(current_line)
+
+            y_offset = 0
+
+            for line_text in lines:
+                text_surface = font_text.render(line_text, True, WHITE)
+                screen.blit(text_surface,(dialogue_box_rect.x + dialogue_padding,
+                dialogue_box_rect.y + dialogue_padding + y_offset))
+                y_offset += 30
+
             for line_text in lines:
                 text_surface = font_text.render(line_text, True, WHITE)
                 screen.blit(text_surface, (dialogue_box_rect.x + dialogue_padding, dialogue_box_rect.y + dialogue_padding + y_offset))
