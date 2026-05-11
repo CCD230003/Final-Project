@@ -211,16 +211,6 @@ class VisualNovel():
 
             y_offset += 30
 
-        for line_text in lines:
-            text_surface = font_text.render(line_text, True, WHITE)
-            screen.blit(text_surface,(dialogue_box_rect.x + dialogue_padding,
-            dialogue_box_rect.y + dialogue_padding + y_offset))
-            y_offset += 30
-
-        for line_text in lines:
-            text_surface = font_text.render(line_text, True, WHITE)
-            screen.blit(text_surface, (dialogue_box_rect.x + dialogue_padding, dialogue_box_rect.y + dialogue_padding + y_offset))
-            y_offset += 30
         if self.showing_choices:
             for rect, choice_text, _ in self.choices_rects:
                 pygame.draw.rect(screen, (80, 80, 100), rect)
