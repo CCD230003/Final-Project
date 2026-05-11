@@ -35,7 +35,14 @@ class VisualNovel():
                        {"char": "Tito", "text": "Wasting my time is what you're doing. Quit staring at me.", "sprite": "tito"},
                        {"char": "Finn", "text": "I didn't mean to stare, I swear I'm not that kind of guy! I just thought--", "sprite": "finnno"},
                        {"char": "Tito", "text": "Thought I'd want to talk to you? Don't flatter yourself.", "sprite": "titowhat"},
-                       {"ending": True}
+                       {"char": "Finn", "text": "No! I thought you, like, y'know, looked cool! Your hair 'n glasses, 'n stuff...", "sprite": "finnno"},
+                       {"char": "Tito", "text": "...", "sprite": "titostand"},
+                       {"char": "Finn", "text": "I'm sure you get that all the time though, huh?", "sprite": "finnyes"},
+                       {"char": "Tito", "text": "I don't want to hear it at all. Especially not from someone like you.", "sprite": "tito"},
+                       {"char": "Tito", "text": "Again, you're wasting my time. Get lost. I've got things to do.", "sprite": "titoyes"},
+                       {"char": "Finn", "text": "...but..", "sprite": "finnwhat"},
+                       {"char": "Finn", "text": "...", "sprite": "finnwhat"},
+                       {"char": "Finn", "text": "...?", "sprite": "finnwhat", "ending": True}
                        ]
                        
         self.sprites = {}
@@ -61,6 +68,8 @@ class VisualNovel():
             self.sprites["finnno"] = pygame.image.load("sprites/Finn_No.png").convert_alpha()
             self.sprites["titoyes"] = pygame.image.load("sprites/Tito_Yes.png").convert_alpha()
             self.sprites["titowhat"] = pygame.image.load("sprites/Tito_What.png").convert_alpha()
+            self.sprites["titostand"] = pygame.image.load("sprites/Tito_Static.png").convert_alpha()
+            self.sprites["finnyes"] = pygame.image.load("sprites/Finn_Yes.png").convert_alpha()
             for key in self.sprites:
                 sprite = self.sprites[key]
                 aspect = sprite.get_height() / sprite.get_width()
